@@ -35,7 +35,7 @@ function FirstItemUnlocked(menu)
         carItem.Activated = function(sender, item)
         if item == carItem then
             spawnCar("adder")
-            notify("Vehicle Spawned")
+            notify("~g~[SUCCESS] Vehicle Spawned")
         end
     end
     
@@ -50,7 +50,7 @@ function donatorPack1Unlocked(menu)
         adder.Activated = function(sender, item)
         if item == adder then
             spawnCar("adder")
-            notify("Vehicle Spawned")
+            notify("~g~[SUCCESS] Vehicle Spawned")
         end
     end
     local futo = NativeUI.CreateItem("futo", "Spawn ~b~Futo")
@@ -66,7 +66,7 @@ function donatorPack1Unlocked(menu)
         faggio.Activated = function(sender, item)
         if item == faggio then
             spawnCar("faggio")
-            notify("Vehicle Spawned")
+            notify("~g~[SUCCESS]Vehicle Spawned")
         end
     end
     _menuPool:MouseControlsEnabled(false)
@@ -112,7 +112,7 @@ function LockedFirstItem(menu)
     menu:AddItem(click)
     menu.OnItemSelect = function(sender,item,index)
             if item == click then
-                notify("You do not have permission to use this menu")
+                notify("~r~[ERROR] You do not have permission to use this menu")
         end
     end
     _menuPool:MouseControlsEnabled(false)
@@ -125,7 +125,7 @@ function LockedDonatorPack1(menu)
     menu:AddItem(click)
     menu.OnItemSelect = function(sender,item,index)
             if item == click then
-                notify("You do not have permission to use this menu")
+                notify("~r~[ERROR] You do not have permission to use this menu")
         end
     end
     _menuPool:MouseControlsEnabled(false)
