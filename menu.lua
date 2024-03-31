@@ -35,7 +35,6 @@ function FirstItemUnlocked(menu)
         carItem.Activated = function(sender, item)
         if item == carItem then
             spawnCar("adder")
-            notify("~g~[SUCCESS]~w~ Vehicle Spawned")
         end
     end
     
@@ -50,7 +49,6 @@ function donatorPack1Unlocked(menu)
         adder.Activated = function(sender, item)
         if item == adder then
             spawnCar("adder")
-            notify("~g~[SUCCESS]~w~ Vehicle Spawned")
         end
     end
     local futo = NativeUI.CreateItem("futo", "Spawn ~b~Futo")
@@ -58,7 +56,6 @@ function donatorPack1Unlocked(menu)
         futo.Activated = function(sender, item)
         if item == futo then
             spawnCar("futo")
-            notify("~g~[SUCCESS]~w~ Vehicle Spawned")
         end
     end
     local faggio = NativeUI.CreateItem("faggio", "Spawn ~b~Faggio")
@@ -66,7 +63,6 @@ function donatorPack1Unlocked(menu)
         faggio.Activated = function(sender, item)
         if item == faggio then
             spawnCar("faggio")
-            notify("~g~[SUCCESS]~w~ Vehicle Spawned")
         end
     end
     _menuPool:MouseControlsEnabled(false)
@@ -180,14 +176,26 @@ end
 
 function spawnCar(car)
     local car = GetHashKey(car)
-    delLastCar()
     RequestModel(car)
+    local maxTime = 5000
+    if not IsModelInCdimage(car) then
+        notify("~r~[ERROR]~w~ Failed to load model " .. car .. " Please Try Again Later")
+        return
+    end
     while not HasModelLoaded(car) do
         RequestModel(car)
-        Citizen.Wait(0)
+        maxTime = maxTime - 100
+        if maxTime <= 0 then
+            notify("~r~[ERROR]~w~ Failed to load model " .. car .. " Please Try Again Later")
+            return
+        end
+        Citizen.Wait(100)
     end
+    delLastCar()
     local x, y, z = table.unpack(GetEntityCoords(PlayerPedId()))
     local vehicle = CreateVehicle(car, x, y, z, GetEntityHeading(PlayerPedId()), true, false)
     SetPedIntoVehicle(PlayerPedId(), vehicle, -1)
     SetModelAsNoLongerNeeded(car)
+    collectgarbage()
+    notify("~g~[SUCCESS]~w~ Vehicle Spawned")
 end
