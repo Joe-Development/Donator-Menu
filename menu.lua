@@ -196,6 +196,6 @@ function spawnCar(car)
     local vehicle = CreateVehicle(car, x, y, z, GetEntityHeading(PlayerPedId()), true, false)
     SetPedIntoVehicle(PlayerPedId(), vehicle, -1)
     SetModelAsNoLongerNeeded(car)
-    collectgarbage()
+    collectgarbage("collect")
     notify("~g~[SUCCESS]~w~ Vehicle Spawned")
 end
