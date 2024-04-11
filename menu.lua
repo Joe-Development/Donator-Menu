@@ -16,8 +16,14 @@ end
 
 
 _menuPool:Add(mainMenu)
-if Config.useMenuTexture then
-    local background = Sprite.New(Config.menuTextureFileName, "banner", 0, 0, 512, 128)
+if Config.useImageBanner then
+	local RuntimeTXD = CreateRuntimeTxd('Custom_Menu_Head_5')
+    local Object = CreateDui(Config.AddonMenuBannerImage, 512, 128)
+    _G.Object = Object
+    local TextureThing = GetDuiHandle(Object)
+    local Texture = CreateRuntimeTextureFromDuiHandle(RuntimeTXD, 'Custom_Menu_Head_5', TextureThing)
+    Menuthing = "Custom_Menu_Head_5"
+    local background = Sprite.New(Menuthing, Menuthing, 0, 0, 512, 128)
     mainMenu:SetBannerSprite(background, true)
 end
 
