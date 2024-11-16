@@ -9,10 +9,10 @@ shared_script 'config.lua'
 
 client_scripts {
     "dependencies/NativeUI.lua",
-    "menu.lua"
+    "client/menu.lua"
 }
 
-server_script "server.lua"
+server_script "server/server.lua"
 
 
 lua54 "yes"

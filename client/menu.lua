@@ -40,7 +40,7 @@ function FirstItemUnlocked(menu)
         submenu:AddItem(carItem)
         carItem.Activated = function(sender, item)
         if item == carItem then
-            spawnCar("adder")
+            TriggerEvent('DonatorMenu:SpawnCar', 'adder')
         end
     end
     
@@ -54,21 +54,21 @@ function donatorPack1Unlocked(menu)
         submenu:AddItem(adder)
         adder.Activated = function(sender, item)
         if item == adder then
-            spawnCar("adder")
+            TriggerEvent('DonatorMenu:SpawnCar', 'adder')
         end
     end
     local futo = NativeUI.CreateItem("futo", "Spawn ~b~Futo")
         submenu:AddItem(futo)
         futo.Activated = function(sender, item)
         if item == futo then
-            spawnCar("futo")
+            TriggerEvent('DonatorMenu:SpawnCar', 'futo')
         end
     end
     local faggio = NativeUI.CreateItem("faggio", "Spawn ~b~Faggio")
         submenu:AddItem(faggio)
         faggio.Activated = function(sender, item)
         if item == faggio then
-            spawnCar("faggio")
+            TriggerEvent('DonatorMenu:SpawnCar', 'faggio')
         end
     end
     _menuPool:MouseControlsEnabled(false)
@@ -171,16 +171,9 @@ function notify(text)
     DrawNotification(true, false)
 end
 
-function delLastCar()
-    local playerPed = PlayerPedId()
-    if IsPedInAnyVehicle(playerPed, false) then
-        local playerVeh = GetVehiclePedIsIn(playerPed, false)
-        SetEntityAsMissionEntity(playerVeh, true, true)
-        DeleteVehicle(playerVeh)
-    end
-end
 
-function spawnCar(car)
+function SpawnCar(car)
+    local playerPed = PlayerPedId()
     local car = GetHashKey(car)
     RequestModel(car)
     local maxTime = 5000
@@ -197,7 +190,11 @@ function spawnCar(car)
         end
         Citizen.Wait(100)
     end
-    delLastCar()
+    if IsPedInAnyVehicle(playerPed, false) then
+        local playerVeh = GetVehiclePedIsIn(playerPed, false)
+        SetEntityAsMissionEntity(playerVeh, true, true)
+        DeleteVehicle(playerVeh)
+    end
     local x, y, z = table.unpack(GetEntityCoords(PlayerPedId()))
     local vehicle = CreateVehicle(car, x, y, z, GetEntityHeading(PlayerPedId()), true, false)
     SetPedIntoVehicle(PlayerPedId(), vehicle, -1)
@@ -205,3 +202,8 @@ function spawnCar(car)
     collectgarbage("collect")
     notify("~g~[SUCCESS]~w~ Vehicle Spawned")
 end
+
+RegisterNetEvent('DonatorMenu:SpawnCar')
+AddEventHandler('DonatorMenu:SpawnCar', function(car)
+    SpawnCar(car)
+end)
