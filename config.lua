@@ -111,7 +111,7 @@ Config.menu = {
             {
                 type = "submenu",
                 text = "Example Menu 1",
-                ace = "easyadmin",
+                ace = "example.access",
                 description = "Example description",
                 lockedText = "~r~Access denied",
                 items = {
