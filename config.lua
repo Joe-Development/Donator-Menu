@@ -72,9 +72,9 @@ Config.menu = {
         description = "Police Packs",
         lockedText = "~r~To unlock this menu, you need to be a Donator",
         items = {
-            { type = "item", text = "Police Maverick", spawncode = "police" },
-            { type = "item", text = "Police Buffalo", spawncode = "police1" },
-            { type = "item", text = "Police Interceptor", spawncode = "police2" },
+            { type = "item", text = "Police Maverick",  description = "Police Maverick", spawncode = "police" },
+            { type = "item", text = "Police Buffalo", description = "Police Buffalo", spawncode = "police1" },
+            { type = "item", text = "Police Interceptor",  description = "Police Interceptor", spawncode = "police2" },
         }
     },
     {
@@ -84,8 +84,8 @@ Config.menu = {
         description = "Ambulance Cars",
         lockedText = "~r~To unlock this menu, you need to be a Donator",
         items = {
-            { type = "item", text = "Ambulance Maverick", spawncode = "ambulance" },
-            { type = "item", text = "Ambulance Buffalo", spawncode = "ambulance1" },
+            { type = "item", text = "Ambulance Maverick", description = "Ambulance Maverick", spawncode = "ambulance" },
+            { type = "item", text = "Ambulance Buffalo",  description = "Ambulance Buffalo", spawncode = "ambulance1" },
         }
     },
     {
@@ -93,10 +93,10 @@ Config.menu = {
         text = "Free Cars",
         description = "Free Cars",
         items = {
-            { type = "item", text = "Compact Car", spawncode = "blista" },
-            { type = "item", text = "SUV", spawncode = "baller" },
-            { type = "item", text = "Motorcycle", spawncode = "bati" },
-            { type = "item", text = "Off-road", spawncode = "rebel" },
+            { type = "item", text = "Compact Car", description = "Compact Car", spawncode = "blista" },
+            { type = "item", text = "SUV", description = "SUV", spawncode = "baller" },
+            { type = "item", text = "Motorcycle", description = "Motorcycle", spawncode = "bati" },
+            { type = "item", text = "Off-road",  description = "Off-road", spawncode = "rebel" },
         }
     },
 
@@ -115,7 +115,7 @@ Config.menu = {
                 description = "Example description",
                 lockedText = "~r~Access denied",
                 items = {
-                    { type = "item", text = "Example Item", spawncode = "adder" },
+                    { type = "item", text = "Example Item", description = "Example description", spawncode = "adder" },
                 }
             },
             {
@@ -125,7 +125,7 @@ Config.menu = {
                 description = "Example description",
                 lockedText = "~r~Access denied",
                 items = {
-                    { type = "item", text = "Example Item", spawncode = "adder" },
+                    { type = "item", text = "Example Item", description = "Example description", spawncode = "adder" },
                 }
             }
         }

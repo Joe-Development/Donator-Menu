@@ -43,7 +43,7 @@ function CreateMenuItems(parentMenu, items)
                 end
             end
         elseif item.type == "item" then
-            local newItem = NativeUI.CreateItem(item.text, "")
+            local newItem = NativeUI.CreateItem(item.text, item.description or "")
             newItem.Activated = function(_, _)
                 TriggerEvent('DonatorMenu:SpawnCar', item.spawncode)
             end
