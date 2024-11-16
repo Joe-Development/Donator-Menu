@@ -1,21 +1,21 @@
-_menuPool = NativeUI.CreatePool()
+MenuPool = NativeUI.CreatePool()
 
 if Config.useMenuTitle then
     if Config.useMenuDescription then
-        mainMenu = NativeUI.CreateMenu(Config.menuTitle, Config.menuDescription, Config.menuPos.x, Config.menuPos.y)
+        MainMenu = NativeUI.CreateMenu(Config.menuTitle, Config.menuDescription, Config.menuPos.x, Config.menuPos.y)
     else
-        mainMenu = NativeUI.CreateMenu(Config.menuTitle, "Addon Menu", Config.menuPos.x, Config.menuPos.y)
+        MainMenu = NativeUI.CreateMenu(Config.menuTitle, "Addon Menu", Config.menuPos.x, Config.menuPos.y)
     end
 else
     if Config.useMenuDescription then
-        mainMenu = NativeUI.CreateMenu("", Config.menuDescription, Config.menuPos.x, Config.menuPos.y)
+        MainMenu = NativeUI.CreateMenu("", Config.menuDescription, Config.menuPos.x, Config.menuPos.y)
     else
-        mainMenu = NativeUI.CreateMenu("", "Addon Menu", Config.menuPos.x, Config.menuPos.y)
+        MainMenu = NativeUI.CreateMenu("", "Addon Menu", Config.menuPos.x, Config.menuPos.y)
     end
 end
 
 
-_menuPool:Add(mainMenu)
+MenuPool:Add(MainMenu)
 if Config.useImageBanner then
 	local RuntimeTXD = CreateRuntimeTxd('Custom_Menu_Head_5')
     local Object = CreateDui(Config.AddonMenuBannerImage, 512, 128)
@@ -24,18 +24,18 @@ if Config.useImageBanner then
     local Texture = CreateRuntimeTextureFromDuiHandle(RuntimeTXD, 'Custom_Menu_Head_5', TextureThing)
     Menuthing = "Custom_Menu_Head_5"
     local background = Sprite.New(Menuthing, Menuthing, 0, 0, 512, 128)
-    mainMenu:SetBannerSprite(background, true)
+    MainMenu:SetBannerSprite(background, true)
 end
 
-_menuPool:MouseControlsEnabled (false);
-_menuPool:MouseEdgeEnabled (false);
-_menuPool:ControlDisablingEnabled(false);
+MenuPool:MouseControlsEnabled (false);
+MenuPool:MouseEdgeEnabled (false);
+MenuPool:ControlDisablingEnabled(false);
 
 
 
 
 function FirstItemUnlocked(menu)
-    local submenu = _menuPool:AddSubMenu(menu, "🔓 Free Cars", "All Free Cars", Config.menuPos.x, Config.menuPos.y) 
+    local submenu = MenuPool:AddSubMenu(menu, "🔓 Free Cars", "All Free Cars", Config.menuPos.x, Config.menuPos.y) 
     local carItem = NativeUI.CreateItem("adder", "Spawn ~b~Adder")
         submenu:AddItem(carItem)
         carItem.Activated = function(sender, item)
@@ -44,12 +44,12 @@ function FirstItemUnlocked(menu)
         end
     end
     
-    _menuPool:MouseControlsEnabled(false)
-    _menuPool:ControlDisablingEnabled(false)
+    MenuPool:MouseControlsEnabled(false)
+    MenuPool:ControlDisablingEnabled(false)
 end
 
 function donatorPack1Unlocked(menu)
-    local submenu = _menuPool:AddSubMenu(menu, "🔓 Donator Pack 1", "this Donator Pack comes with 3 cars", Config.menuPos.x, Config.menuPos.y) 
+    local submenu = MenuPool:AddSubMenu(menu, "🔓 Donator Pack 1", "this Donator Pack comes with 3 cars", Config.menuPos.x, Config.menuPos.y) 
     local adder = NativeUI.CreateItem("adder", "Spawn ~b~Adder")
         submenu:AddItem(adder)
         adder.Activated = function(sender, item)
@@ -71,8 +71,8 @@ function donatorPack1Unlocked(menu)
             TriggerEvent('DonatorMenu:SpawnCar', 'faggio')
         end
     end
-    _menuPool:MouseControlsEnabled(false)
-    _menuPool:ControlDisablingEnabled(false)
+    MenuPool:MouseControlsEnabled(false)
+    MenuPool:ControlDisablingEnabled(false)
 end
 
 
@@ -83,9 +83,9 @@ TriggerServerEvent('FreeCar:Check')
 RegisterNetEvent('FreeCars:Result')
 AddEventHandler('FreeCars:Result', function(Allowed)
     if Allowed then
-        FirstItemUnlocked(mainMenu)
+        FirstItemUnlocked(MainMenu)
     else
-        LockedFirstItem(mainMenu)
+        LockedFirstItem(MainMenu)
     end
 end)
 
@@ -93,9 +93,9 @@ TriggerServerEvent('DonatorPack1:Check')
 RegisterNetEvent('DonatorPack1:Result')
 AddEventHandler('DonatorPack1:Result', function(Allowed)
     if Allowed then
-        donatorPack1Unlocked(mainMenu)
+        donatorPack1Unlocked(MainMenu)
     else
-        LockedDonatorPack1(mainMenu)
+        LockedDonatorPack1(MainMenu)
     end
 end)
 
@@ -117,8 +117,8 @@ function LockedFirstItem(menu)
                 notify("~r~[ERROR]~w~ You do not have permission to use this menu")
         end
     end
-    _menuPool:MouseControlsEnabled(false)
-    _menuPool:ControlDisablingEnabled(false)
+    MenuPool:MouseControlsEnabled(false)
+    MenuPool:ControlDisablingEnabled(false)
 end
 
 
@@ -130,8 +130,8 @@ function LockedDonatorPack1(menu)
                 notify("~r~[ERROR]~w~ You do not have permission to use this menu")
         end
     end
-    _menuPool:MouseControlsEnabled(false)
-    _menuPool:ControlDisablingEnabled(false)
+    MenuPool:MouseControlsEnabled(false)
+    MenuPool:ControlDisablingEnabled(false)
 end
 
 
@@ -140,26 +140,20 @@ end
 
 
 
-_menuPool:RefreshIndex()
-Citizen.CreateThread(function()
-    while true do
-        Citizen.Wait(0)
-        _menuPool:ProcessMenus()
-        if Config.useKeyBind then
-            if IsControlJustPressed(1, Config.menuKey) then
-                mainMenu:Visible(not mainMenu:Visible())
-            end
-        end
-    end
-end)
+MenuPool:RefreshIndex()
 
-if Config.useKeyBind == false then
+
+if not Config.useKeyBind then
     RegisterCommand(Config.menuCommand, function()
-        mainMenu:Visible(not mainMenu:Visible())
+        MainMenu:Visible(not MainMenu:Visible())
     end, false)
+else
+    RegisterCommand('+-_menu_donator+', function()
+        MainMenu:Visible(not MainMenu:Visible())
+    end, false)
+
+    RegisterKeyMapping('+-_menu_donator+', "Open Donator Menu", "keyboard", 'F6')
 end
-
-
 
 
 
