@@ -14,32 +14,57 @@ Config = {
     AddonMenuBannerImage = 'https://cdn.discordapp.com/attachments/1161069645827166304/1227890264597856297/3dp4fyzfl7q51.gif?ex=662a0cec&is=661797ec&hm=d4992594e6df2a555ae55724cc67c9f69ecb22bc0627774b17df374ed4de8b24&',
 }
 
+
+--[[
+    Configuration for the Donator Menu
+    ----------------------------------
+
+    How to Configure:
+    - Each menu is defined as a table within the Config.menu table.
+    - 'type': This should be "submenu" for menu sections and "item" for individual items.
+    - 'text': The display name of the submenu.
+    - 'ace': (Optional) Permission required to access the submenu if not provided anyone can access it.
+    - 'description': A brief description of the submenu.
+    - 'lockedText': The message shown if the user doesn't have access.
+    - 'items': A list of items available in the submenu.
+
+    Example:
+    {
+        type = "submenu",
+        text = "Example Menu",
+        ace = "example.access",
+        description = "Example description",
+        lockedText = "~r~Access denied",
+        items = {
+            { type = "item", text = "Example Item", spawncode = "example_spawn" },
+        }
+    }
+]]
+
 Config.menu = {
     {
         type = "submenu",
         text = "Police Packs",
         ace = "police.maverick",
         description = "Police Packs",
-        lockedText = "To unlock this menu, you need to be a Donator",
+        lockedText = "~r~To unlock this menu, you need to be a Donator",
         items = {
             { type = "item", text = "Police Maverick", spawncode = "police" },
             { type = "item", text = "Police Buffalo", spawncode = "police1" },
             { type = "item", text = "Police Interceptor", spawncode = "police2" },
         }
     },
-
     {
         type = "submenu",
         text = "Ambulance Cars",
-        description = "Ambulance Cars",
         ace = "ambulance.maverick",
-        lockedText = "To unlock this menu, you need to be a Donator",
+        description = "Ambulance Cars",
+        lockedText = "~r~To unlock this menu, you need to be a Donator",
         items = {
             { type = "item", text = "Ambulance Maverick", spawncode = "ambulance" },
             { type = "item", text = "Ambulance Buffalo", spawncode = "ambulance1" },
         }
     },
-
     {
         type = "submenu",
         text = "Free Cars",
@@ -52,3 +77,4 @@ Config.menu = {
         }
     }
 }
+
