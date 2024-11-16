@@ -7,6 +7,17 @@ local menu = NativeUI.CreateMenu(
     Config.menuPos.y
 )
 
+if Config.useImageBanner then
+    local RuntimeTXD = CreateRuntimeTxd('DonatorMenu_Header')
+    local Object = CreateDui(Config.AddonMenuBannerImage, 512, 128)
+
+    local dui = GetDuiHandle(Object)
+    local header = CreateRuntimeTextureFromDuiHandle(RuntimeTXD, 'DonatorMenu_Header', dui)
+    
+    local background = Sprite.New('DonatorMenu_Header', 'DonatorMenu_Header', 0, 0, 512, 128)
+    menu:SetBannerSprite(background, true)
+end
+
 MenuPool:Add(menu)
 MenuPool:MouseControlsEnabled(false)
 MenuPool:MouseEdgeEnabled(false)
