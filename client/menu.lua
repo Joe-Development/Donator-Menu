@@ -15,9 +15,12 @@ MenuPool:ControlDisablingEnabled(false)
 function CreateMenuItems(parentMenu, items)
     for _, item in ipairs(items) do
         if item.type == "submenu" then
-            local hasPermission = lib.callback.await('Donator-Menu:check', false, item.ace)
+            local hasPermission = true
+            if item.ace then
+                hasPermission = lib.callback.await('Donator-Menu:check', false, item.ace)
+            end
             if hasPermission then
-                local submenu = MenuPool:AddSubMenu(parentMenu, item.text)
+                local submenu = MenuPool:AddSubMenu(parentMenu, item.text, item.description, true, true)
                 CreateMenuItems(submenu, item.items)
             else
                 local lockedMenu = NativeUI.CreateItem(item.text, item.lockedText)

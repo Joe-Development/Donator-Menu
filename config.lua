@@ -16,46 +16,39 @@ Config = {
 
 Config.menu = {
     {
-        type = "submenu", -- submenu/item 
-        text = "Police Cars",
+        type = "submenu",
+        text = "Police Packs",
         ace = "police.maverick",
-        lockedText = "To Unlock this menu you need to be a Donator",
+        description = "Police Packs",
+        lockedText = "To unlock this menu, you need to be a Donator",
         items = {
-            [1] = {
-                type = "item", -- submenu/item 
-                text = "Police Maverick",
-                spawncode = "police",
-            },
-            [2] = {
-                type = "item", -- submenu/item 
-                text = "Police Buffalo",
-                spawncode = "police1",
-            },
-            [3] = {
-                type = "item", -- submenu/item 
-                text = "Police Interceptor",
-                spawncode = "police2",
-            },
+            { type = "item", text = "Police Maverick", spawncode = "police" },
+            { type = "item", text = "Police Buffalo", spawncode = "police1" },
+            { type = "item", text = "Police Interceptor", spawncode = "police2" },
         }
     },
 
     {
         type = "submenu",
         text = "Ambulance Cars",
+        description = "Ambulance Cars",
         ace = "ambulance.maverick",
-        lockedText = "To Unlock this menu you need to be a Donator",
+        lockedText = "To unlock this menu, you need to be a Donator",
         items = {
-            [1] = {
-                type = "item", -- submenu/item 
-                text = "Ambulance Maverick",
-                spawncode = "ambulance",
-            },
-            [2] = {
-                type = "item", -- submenu/item 
-                text = "Ambulance Buffalo",
-                spawncode = "ambulance1",
-            },
+            { type = "item", text = "Ambulance Maverick", spawncode = "ambulance" },
+            { type = "item", text = "Ambulance Buffalo", spawncode = "ambulance1" },
+        }
+    },
+
+    {
+        type = "submenu",
+        text = "Free Cars",
+        description = "Free Cars",
+        items = {
+            { type = "item", text = "Compact Car", spawncode = "blista" },
+            { type = "item", text = "SUV", spawncode = "baller" },
+            { type = "item", text = "Motorcycle", spawncode = "bati" },
+            { type = "item", text = "Off-road", spawncode = "rebel" },
         }
     }
 }
-
