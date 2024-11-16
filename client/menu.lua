@@ -16,10 +16,22 @@ function CreateMenuItems(parentMenu, items)
     for _, item in ipairs(items) do
         if item.type == "submenu" then
             local hasPermission = true
+            local hasNestedPermission = false
             if item.ace then
                 hasPermission = lib.callback.await('Donator-Menu:check', false, item.ace)
+                if not hasPermission then
+                    for _, nestedItem in ipairs(item.items) do
+                        if nestedItem.ace then
+                            local nestedHasPermission = lib.callback.await('Donator-Menu:check', false, nestedItem.ace)
+                            if nestedHasPermission then
+                                hasNestedPermission = true
+                                break
+                            end
+                        end
+                    end
+                end
             end
-            if hasPermission then
+            if hasPermission or hasNestedPermission then
                 local submenu = MenuPool:AddSubMenu(parentMenu, item.text, item.description, true, true)
                 CreateMenuItems(submenu, item.items)
             else

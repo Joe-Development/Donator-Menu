@@ -100,6 +100,37 @@ Config.menu = {
         }
     },
 
+    -- nested example 
+    {
+        type = "submenu",
+        text = "Example Menu",
+        ace = "example.access",
+        description = "Example description",
+        lockedText = "~r~Access denied",
+        items = {
+            {
+                type = "submenu",
+                text = "Example Menu 1",
+                ace = "easyadmin",
+                description = "Example description",
+                lockedText = "~r~Access denied",
+                items = {
+                    { type = "item", text = "Example Item", spawncode = "adder" },
+                }
+            },
+            {
+                type = "submenu",
+                text = "Example Menu 2",
+                ace = "example.access",
+                description = "Example description",
+                lockedText = "~r~Access denied",
+                items = {
+                    { type = "item", text = "Example Item", spawncode = "adder" },
+                }
+            }
+        }
+    }
+
 
 }
 
