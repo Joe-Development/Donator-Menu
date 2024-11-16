@@ -100,7 +100,7 @@ Config.menu = {
         }
     },
 
-    -- nested example 
+    -- nested example
     {
         type = "submenu",
         text = "Example Menu",

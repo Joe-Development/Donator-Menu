@@ -32,10 +32,10 @@ function CreateMenuItems(parentMenu, items)
                 end
             end
             if hasPermission or hasNestedPermission then
-                local submenu = MenuPool:AddSubMenu(parentMenu, item.text, item.description, true, true)
+                local submenu = MenuPool:AddSubMenu(parentMenu, item.text, item.description or "", true, true)
                 CreateMenuItems(submenu, item.items)
             else
-                local lockedMenu = NativeUI.CreateItem('~r~'..item.text, item.lockedText)
+                local lockedMenu = NativeUI.CreateItem('~r~'..item.text, item.lockedText or "")
                 lockedMenu:RightLabel("🔒")
                 parentMenu:AddItem(lockedMenu)
                 lockedMenu.Activated = function(_, _)
@@ -91,7 +91,7 @@ AddEventHandler('DonatorMenu:SpawnCar', function(car)
     local vehicle = CreateVehicle(carHash, coords.x, coords.y, coords.z, GetEntityHeading(playerPed), true, false)
     SetPedIntoVehicle(playerPed, vehicle, -1)
     SetModelAsNoLongerNeeded(carHash)
-    
+
     Notify("~g~[SUCCESS]~w~ Vehicle Spawned")
 end)
 
