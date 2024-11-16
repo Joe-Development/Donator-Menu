@@ -36,7 +36,7 @@ Config = {
         description = "Example description",
         lockedText = "~r~Access denied",
         items = {
-            { type = "item", text = "Example Item", spawncode = "example_spawn" },
+            { type = "item", text = "Example Item", description = "Example description", spawncode = "example_spawn" },
         }
     }
 
@@ -57,7 +57,7 @@ Config = {
                 description = "Example description",
                 lockedText = "~r~Access denied",
                 items = {
-                    { type = "item", text = "Example Item", spawncode = "example_spawn" },
+                    { type = "item", text = "Example Item", description = "Example description", spawncode = "example_spawn" },
                 }
             }
         }
