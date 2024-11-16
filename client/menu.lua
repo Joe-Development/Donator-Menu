@@ -55,9 +55,16 @@ end
 CreateMenuItems(menu, Config.menu)
 MenuPool:RefreshIndex()
 
-RegisterCommand(Config.menuCommand, function()
-    menu:Visible(not menu:Visible())
-end)
+if not Config.useKeyBind then
+    RegisterCommand(Config.menuCommand, function()
+        menu:Visible(not menu:Visible())
+    end)
+else
+    RegisterCommand('+donator_menu', function()
+        menu:Visible(not menu:Visible())
+    end, false)
+    RegisterKeyMapping('donator_menu', "Donator Menu", "keyboard", Config.menuKey)
+end
 
 Citizen.CreateThread(function()
     while true do

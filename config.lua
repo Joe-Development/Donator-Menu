@@ -2,7 +2,7 @@ Config = {
     menuPos = {x = 1450, y = 100},
     
     useKeyBind = false,
-    menuKey = 167, -- only works if userKeyBind is true
+    menuKey = 'F3', -- only works if userKeyBind is true
     menuCommand = "donatormenu", -- only works if userKeyBind is false
 
     useMenuTitle = false, -- i recommend having off if ur using a menuTexture
