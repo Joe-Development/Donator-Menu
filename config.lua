@@ -39,6 +39,29 @@ Config = {
             { type = "item", text = "Example Item", spawncode = "example_spawn" },
         }
     }
+
+
+    Example of Double Nested: 
+
+    {
+        type = "submenu",
+        text = "Example Menu",
+        ace = "example.access",
+        description = "Example description",
+        lockedText = "~r~Access denied",
+        items = {
+            {
+                type = "submenu",
+                text = "Example Menu",
+                ace = "example.access",
+                description = "Example description",
+                lockedText = "~r~Access denied",
+                items = {
+                    { type = "item", text = "Example Item", spawncode = "example_spawn" },
+                }
+            }
+        }
+    }
 ]]
 
 Config.menu = {
@@ -75,6 +98,8 @@ Config.menu = {
             { type = "item", text = "Motorcycle", spawncode = "bati" },
             { type = "item", text = "Off-road", spawncode = "rebel" },
         }
-    }
+    },
+
+
 }
 

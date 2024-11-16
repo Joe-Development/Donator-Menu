@@ -23,16 +23,11 @@ function CreateMenuItems(parentMenu, items)
                 local submenu = MenuPool:AddSubMenu(parentMenu, item.text, item.description, true, true)
                 CreateMenuItems(submenu, item.items)
             else
-                local lockedMenu = NativeUI.CreateItem(item.text, item.lockedText)
+                local lockedMenu = NativeUI.CreateItem('~r~'..item.text, item.lockedText)
+                lockedMenu:RightLabel("🔒")
                 parentMenu:AddItem(lockedMenu)
                 lockedMenu.Activated = function(_, _)
-                    lib.notify({
-                        title = 'Donator-Menu',
-                        description = item.lockedText,
-                        type = 'error',
-                        duration = 2500,
-                        position = 'center-right'
-                    })
+                    Notify(item.lockedText)
                 end
             end
         elseif item.type == "item" then
