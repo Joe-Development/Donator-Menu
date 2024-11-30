@@ -1,8 +1,8 @@
 fx_version "cerulean"
 games {"gta5"}
 author "JoeV2"
-description "Addon Menu"
-version "1.0.0"
+description "A Nice Easy Configurable Donator Menu"
+version "1.0.3"
 lua54 "yes"
 
 shared_scripts {

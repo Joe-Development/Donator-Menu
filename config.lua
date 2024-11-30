@@ -8,7 +8,7 @@ Config = {
     useMenuTitle = false, -- i recommend having off if ur using a menuTexture
     menuTitle = "~p~Donator ~y~Menu", -- only works if useMenuTitle is true
     useMenuDescription = true,
-    menuDescription = "Welcome to the Donator Menu", -- only works if useMenuTitle is true
+    menuDescription = "Welcome to the Donator Menu", -- only works if useMenuDescription is true
 
     useImageBanner = true,
     AddonMenuBannerImage = 'https://files.catbox.moe/an1x9e.png',
@@ -63,6 +63,8 @@ Config = {
         }
     }
 ]]
+
+
 
 Config.menu = {
     {

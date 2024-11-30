@@ -12,7 +12,7 @@ if Config.useImageBanner then
     local Object = CreateDui(Config.AddonMenuBannerImage, 512, 128)
 
     local dui = GetDuiHandle(Object)
-    local header = CreateRuntimeTextureFromDuiHandle(RuntimeTXD, 'DonatorMenu_Header', dui)
+    CreateRuntimeTextureFromDuiHandle(RuntimeTXD, 'DonatorMenu_Header', dui)
     
     local background = Sprite.New('DonatorMenu_Header', 'DonatorMenu_Header', 0, 0, 512, 128)
     menu:SetBannerSprite(background, true)
@@ -74,7 +74,7 @@ else
     RegisterCommand('+donator_menu', function()
         menu:Visible(not menu:Visible())
     end, false)
-    RegisterKeyMapping('donator_menu', "Donator Menu", "keyboard", Config.menuKey)
+    RegisterKeyMapping('+donator_menu', "Donator Menu", "keyboard", Config.menuKey)
 end
 
 Citizen.CreateThread(function()
