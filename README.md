@@ -22,3 +22,4 @@ To install this resource, follow these steps:
 
 This resource is a simple and free resource, so it may not have all the features you want. If you want to request a feature, please open an issue on the GitHub page. I will try my best to add it as soon as possible.
 
+also cant believe i have to explain this, but when putting aces into the menu your going to put a CUSTOM Ace example `donator.pack1` then in the server.cfg you can do `add_ace group.donatorpack1 donator.pack1 allow`
