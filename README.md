@@ -9,6 +9,19 @@ This resource is a simple and free Donator Menu that developers/owners can use i
 
 The config file is located in the `config.lua`file. It is a lua file and contains all the config options. The config file is pretty self-explanatory, so I won't go into too much detail here.
 
+**Features And Upcoming Features**
+- [x] Customizable Car Packs
+- [x] Nested Menu Support
+- [x] Customizable Keybinds
+- [x] Car Pack Support
+
+- [ ] Weapon Pack Support
+- [ ] Nested Weapon Menu Support
+
+- [ ] Peds Support
+- [ ] Nested Peds Menu Support
+
+
 **How to Install**
 
 To install this resource, follow these steps:
