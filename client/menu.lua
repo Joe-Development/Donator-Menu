@@ -56,7 +56,13 @@ function CreateMenuItems(parentMenu, items)
         elseif item.type == "item" then
             local newItem = NativeUI.CreateItem(item.text, item.description or "")
             newItem.Activated = function(_, _)
-                TriggerEvent('DonatorMenu:SpawnCar', item.spawncode)
+                if item.pack == "car" then
+                    TriggerEvent('DonatorMenu:SpawnCar', item.spawncode)
+                elseif item.pack == "weapon" then
+                    TriggerEvent('DonatorMenu:GiveWeapon', item.spawncode)
+                elseif item.pack == "ped" then
+                    TriggerEvent('DonatorMenu:SpawnPed', item.spawncode)
+                end
             end
             parentMenu:AddItem(newItem)
         end
@@ -69,7 +75,7 @@ MenuPool:RefreshIndex()
 if not Config.useKeyBind then
     RegisterCommand(Config.menuCommand, function()
         menu:Visible(not menu:Visible())
-    end)
+    end, false)
 else
     RegisterCommand('+donator_menu', function()
         menu:Visible(not menu:Visible())
@@ -112,6 +118,16 @@ AddEventHandler('DonatorMenu:SpawnCar', function(car)
 
     Notify("~g~[SUCCESS]~w~ Vehicle Spawned")
 end)
+
+RegisterNetEvent('DonatorMenu:GiveWeapon')
+AddEventHandler('DonatorMenu:GiveWeapon', function(weapon)
+    local playerPed = PlayerPedId()
+    local weaponHash = GetHashKey(weapon)
+    GiveWeaponToPed(playerPed, weaponHash, 999, false, true)
+    SetPedAmmo(playerPed, weaponHash, 999)
+end)
+
+
 
 function Notify(msg)
     SetNotificationTextEntry("STRING")

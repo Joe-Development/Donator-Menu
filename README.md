@@ -15,11 +15,11 @@ The config file is located in the `config.lua`file. It is a lua file and contain
 - [x] Customizable Keybinds
 - [x] Car Pack Support
 
-- [ ] Weapon Pack Support
-- [ ] Nested Weapon Menu Support
+- [X] Weapon Pack Support
+- [X] Nested Weapon Menu Support
 
-- [ ] Peds Support
-- [ ] Nested Peds Menu Support
+- [X] Peds Support
+- [X] Nested Peds Menu Support
 
 
 **How to Install**

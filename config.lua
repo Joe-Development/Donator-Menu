@@ -74,9 +74,9 @@ Config.menu = {
         description = "Police Packs",
         lockedText = "~r~To unlock this menu, you need to be a Donator",
         items = {
-            { type = "item", text = "Police Maverick",  description = "Police Maverick", spawncode = "police" },
-            { type = "item", text = "Police Buffalo", description = "Police Buffalo", spawncode = "police1" },
-            { type = "item", text = "Police Interceptor",  description = "Police Interceptor", spawncode = "police2" },
+            { type = "item", pack = "car", text = "Police Maverick",  description = "Police Maverick", spawncode = "police" },
+            { type = "item", pack = "car", text = "Police Buffalo", description = "Police Buffalo", spawncode = "police1" },
+            { type = "item", pack = "car", text = "Police Interceptor",  description = "Police Interceptor", spawncode = "police2" },
         }
     },
     {
@@ -86,8 +86,8 @@ Config.menu = {
         description = "Ambulance Cars",
         lockedText = "~r~To unlock this menu, you need to be a Donator",
         items = {
-            { type = "item", text = "Ambulance Maverick", description = "Ambulance Maverick", spawncode = "ambulance" },
-            { type = "item", text = "Ambulance Buffalo",  description = "Ambulance Buffalo", spawncode = "ambulance1" },
+            { type = "item", pack = "car", text = "Ambulance Maverick", description = "Ambulance Maverick", spawncode = "ambulance" },
+            { type = "item", pack = "car", text = "Ambulance Buffalo",  description = "Ambulance Buffalo", spawncode = "ambulance1" },
         }
     },
     {
@@ -95,10 +95,10 @@ Config.menu = {
         text = "Free Cars",
         description = "Free Cars",
         items = {
-            { type = "item", text = "Compact Car", description = "Compact Car", spawncode = "blista" },
-            { type = "item", text = "SUV", description = "SUV", spawncode = "baller" },
-            { type = "item", text = "Motorcycle", description = "Motorcycle", spawncode = "bati" },
-            { type = "item", text = "Off-road",  description = "Off-road", spawncode = "rebel" },
+            { type = "item", pack = "car", text = "Compact Car", description = "Compact Car", spawncode = "blista" },
+            { type = "item", pack = "car", text = "SUV", description = "SUV", spawncode = "baller" },
+            { type = "item", pack = "car", text = "Motorcycle", description = "Motorcycle", spawncode = "bati" },
+            { type = "item", pack = "car", text = "Off-road",  description = "Off-road", spawncode = "rebel" },
         }
     },
 
@@ -117,7 +117,7 @@ Config.menu = {
                 description = "Example description",
                 lockedText = "~r~Access denied",
                 items = {
-                    { type = "item", text = "Example Item", description = "Example description", spawncode = "adder" },
+                    { type = "item", pack = "car", text = "Example Item", description = "Example description", spawncode = "adder" },
                 }
             },
             {
@@ -127,7 +127,96 @@ Config.menu = {
                 description = "Example description",
                 lockedText = "~r~Access denied",
                 items = {
-                    { type = "item", text = "Example Item", description = "Example description", spawncode = "adder" },
+                    { type = "item", pack = "car", text = "Example Item", description = "Example description", spawncode = "adder" },
+                }
+            }
+        }
+    },
+
+    {
+        type = "submenu",
+        text = "Weapon Packs",
+        ace = "weapon.access",
+        description = "Weapon Packs",
+        lockedText = "~r~Access denied",
+        items = {
+            { type = "item", pack = "weapon", text = "Pistol", description = "Pistol", spawncode = "weapon_pistol" },
+            { type = "item", pack = "weapon", text = "Carbine", description = "Carbine", spawncode = "weapon_carbinerifle" },
+        }
+    },
+
+    {
+        type = "submenu",
+        text = "Peds",
+        description = "Peds",
+        ace = "ped.access",
+        lockedText = "~r~Access denied",
+        items = {
+            { type = "item", pack = "ped", text = "Ped 1", description = "Ped 1", spawncode = "ped1" },
+            { type = "item", pack = "ped", text = "Ped 2", description = "Ped 2", spawncode = "ped2" },
+        }
+    },
+
+    -- Nested Weapon Example
+    {
+        type = "submenu",
+        text = "Special Weapons",
+        ace = "weapon.special",
+        description = "Special Weapon Packs",
+        lockedText = "~r~Access denied",
+        items = {
+            {
+                type = "submenu",
+                text = "Heavy Weapons",
+                ace = "weapon.heavy",
+                description = "Heavy Weapons Pack",
+                lockedText = "~r~Access denied",
+                items = {
+                    { type = "item", pack = "weapon", text = "RPG", description = "Rocket Launcher", spawncode = "weapon_rpg" },
+                    { type = "item", pack = "weapon", text = "Minigun", description = "Minigun", spawncode = "weapon_minigun" },
+                }
+            },
+            {
+                type = "submenu",
+                text = "Sniper Rifles",
+                ace = "weapon.sniper",
+                description = "Sniper Rifles Pack",
+                lockedText = "~r~Access denied",
+                items = {
+                    { type = "item", pack = "weapon", text = "Heavy Sniper", description = "Heavy Sniper", spawncode = "weapon_heavysniper" },
+                    { type = "item", pack = "weapon", text = "Marksman Rifle", description = "Marksman Rifle", spawncode = "weapon_marksmanrifle" },
+                }
+            }
+        }
+    },
+
+    {
+        type = "submenu",
+        text = "Special Peds",
+        ace = "ped.special",
+        description = "Special Character Packs",
+        lockedText = "~r~Access denied",
+        items = {
+            {
+                type = "submenu",
+                text = "Police Peds",
+                ace = "ped.police",
+                description = "Police Character Pack",
+                lockedText = "~r~Access denied",
+                items = {
+                    { type = "item", pack = "ped", text = "SWAT", description = "SWAT Officer", spawncode = "s_m_y_swat_01" },
+                    { type = "item", pack = "ped", text = "Highway Patrol", description = "Highway Patrol Officer", spawncode = "s_m_y_hwaycop_01" },
+                }
+            },
+            {
+                type = "submenu",
+                text = "Gang Peds",
+                ace = "ped.gang",
+                description = "Gang Character Pack",
+                lockedText = "~r~Access denied",
+                items = {
+                    { type = "item", pack = "ped", text = "Ballas", description = "Ballas Gang Member", spawncode = "g_m_y_ballasout_01" },
+                    { type = "item", pack = "ped", text = "Lost MC", description = "Lost MC Member", spawncode = "g_m_y_lost_01" },
                 }
             }
         }
@@ -135,4 +224,3 @@ Config.menu = {
 
 
 }
-
