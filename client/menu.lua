@@ -129,7 +129,6 @@ end)
 
 RegisterNetEvent('DonatorMenu:SpawnPed')
 AddEventHandler('DonatorMenu:SpawnPed', function(ped)
-    local playerPed = PlayerPedId()
     local pedHash = GetHashKey(ped)
 
     RequestModel(pedHash)
