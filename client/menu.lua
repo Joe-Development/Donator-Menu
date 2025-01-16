@@ -94,7 +94,7 @@ RegisterNetEvent('DonatorMenu:SpawnCar')
 AddEventHandler('DonatorMenu:SpawnCar', function(car)
     local playerPed = PlayerPedId()
     local carHash = GetHashKey(car)
-    
+
     RequestModel(carHash)
     local timeout = 5000
     while not HasModelLoaded(carHash) and timeout > 0 do
@@ -127,7 +127,21 @@ AddEventHandler('DonatorMenu:GiveWeapon', function(weapon)
     SetPedAmmo(playerPed, weaponHash, 999)
 end)
 
+RegisterNetEvent('DonatorMenu:SpawnPed')
+AddEventHandler('DonatorMenu:SpawnPed', function(ped)
+    local playerPed = PlayerPedId()
+    local pedHash = GetHashKey(ped)
 
+    RequestModel(pedHash)
+    while not HasModelLoaded(pedHash) do
+        Wait(1)
+    end
+
+    SetPlayerModel(PlayerId(), pedHash)
+    SetModelAsNoLongerNeeded(pedHash)
+    local newPed = PlayerPedId()
+    SetEntityHealth(newPed, GetEntityMaxHealth(newPed))
+end)
 
 function Notify(msg)
     SetNotificationTextEntry("STRING")
