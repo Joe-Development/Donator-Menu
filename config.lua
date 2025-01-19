@@ -27,6 +27,7 @@ Config = {
     - 'description': A brief description of the submenu.
     - 'lockedText': The message shown if the user doesn't have access.
     - 'items': A list of items available in the submenu.
+    - 'pack': the Pack type can only be used on type 'item' all pack types here: 'car', 'weapon', 'ped'
 
     Example:
     {
@@ -36,7 +37,7 @@ Config = {
         description = "Example description",
         lockedText = "~r~Access denied",
         items = {
-            { type = "item", text = "Example Item", description = "Example description", spawncode = "example_spawn" },
+            { type = "item", pack = 'car', text = "Example Item", description = "Example description", spawncode = "example_spawn" },
         }
     }
 
@@ -57,7 +58,7 @@ Config = {
                 description = "Example description",
                 lockedText = "~r~Access denied",
                 items = {
-                    { type = "item", text = "Example Item", description = "Example description", spawncode = "example_spawn" },
+                    { type = "item", pack = 'car', text = "Example Item", description = "Example description", spawncode = "example_spawn" },
                 }
             }
         }
