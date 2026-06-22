@@ -123,7 +123,8 @@ AddEventHandler('DonatorMenu:SpawnCar', function(car)
     end
 
     if IsPedInAnyVehicle(ped, false) then
-        DeleteVehicle(GetVehiclePedIsIn(ped, false))
+        local vehicle = GetVehiclePedIsIn(ped, false)
+        DeleteVehicle(vehicle)
     end
 
     local coords = GetEntityCoords(ped)
