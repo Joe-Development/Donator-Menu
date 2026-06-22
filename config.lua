@@ -1,227 +1,189 @@
-Config = {
-    menuPos = {x = 1450, y = 100},
-    
-    useKeyBind = false,
-    menuKey = 'F3', -- only works if userKeyBind is true
-    menuCommand = "donatormenu", -- only works if userKeyBind is false
-
-    useMenuTitle = false, -- i recommend having off if ur using a menuTexture
-    menuTitle = "~p~Donator ~y~Menu", -- only works if useMenuTitle is true
-    useMenuDescription = true,
-    menuDescription = "Welcome to the Donator Menu", -- only works if useMenuDescription is true
-
-    useImageBanner = true,
-    AddonMenuBannerImage = 'https://files.catbox.moe/an1x9e.png',
-}
-
-
 --[[
-    Configuration for the Donator Menu
-    ----------------------------------
+    Donator Menu Configuration
+    --------------------------
 
-    How to Configure:
-    - Each menu is defined as a table within the Config.menu table.
-    - 'type': This should be "submenu" for menu sections and "item" for individual items.
-    - 'text': The display name of the submenu.
-    - 'ace': (Optional) Permission required to access the submenu if not provided anyone can access it.
-    - 'description': A brief description of the submenu.
-    - 'lockedText': The message shown if the user doesn't have access.
-    - 'items': A list of items available in the submenu.
-    - 'pack': the Pack type can only be used on type 'item' all pack types here: 'car', 'weapon', 'ped'
+    Menu (display)
+    - position:  { x, y } screen position
+    - title:     Menu title text, or false to hide
+    - subtitle:  Menu subtitle text, or false to hide
+    - banner:    Banner image URL, or false to hide
 
-    Example:
-    {
-        type = "submenu",
-        text = "Example Menu",
-        ace = "example.access",
-        description = "Example description",
-        lockedText = "~r~Access denied",
-        items = {
-            { type = "item", pack = 'car', text = "Example Item", description = "Example description", spawncode = "example_spawn" },
-        }
-    }
+    Open (how players open the menu)
+    - type:      "command" or "keybind"
+    - command:   Chat command name (when type = "command")
+    - key:       Key name (when type = "keybind")
 
+    Messages (defaults for locked menu entries)
+    - locked:    Shown when a permission-locked entry is clicked
 
-    Example of Double Nested: 
+    Entries (menu content)
+    Submenu:
+    - label, description
+    - permission:  (optional) ACE permission required
+    - locked:      (optional) Override for locked message
+    - items:       Child entries
 
-    {
-        type = "submenu",
-        text = "Example Menu",
-        ace = "example.access",
-        description = "Example description",
-        lockedText = "~r~Access denied",
-        items = {
-            {
-                type = "submenu",
-                text = "Example Menu",
-                ace = "example.access",
-                description = "Example description",
-                lockedText = "~r~Access denied",
-                items = {
-                    { type = "item", pack = 'car', text = "Example Item", description = "Example description", spawncode = "example_spawn" },
-                }
-            }
-        }
-    }
+    Item:
+    - label, description
+    - action:      "vehicle", "weapon", or "ped"
+    - model:       Spawn code / weapon name / ped model
 ]]
 
+Config = {
 
-
-Config.menu = {
-    {
-        type = "submenu",
-        text = "Police Packs",
-        ace = "police.maverick",
-        description = "Police Packs",
-        lockedText = "~r~To unlock this menu, you need to be a Donator",
-        items = {
-            { type = "item", pack = "car", text = "Police Maverick",  description = "Police Maverick", spawncode = "police" },
-            { type = "item", pack = "car", text = "Police Buffalo", description = "Police Buffalo", spawncode = "police1" },
-            { type = "item", pack = "car", text = "Police Interceptor",  description = "Police Interceptor", spawncode = "police2" },
-        }
-    },
-    {
-        type = "submenu",
-        text = "Ambulance Cars",
-        ace = "ambulance.maverick",
-        description = "Ambulance Cars",
-        lockedText = "~r~To unlock this menu, you need to be a Donator",
-        items = {
-            { type = "item", pack = "car", text = "Ambulance Maverick", description = "Ambulance Maverick", spawncode = "ambulance" },
-            { type = "item", pack = "car", text = "Ambulance Buffalo",  description = "Ambulance Buffalo", spawncode = "ambulance1" },
-        }
-    },
-    {
-        type = "submenu",
-        text = "Free Cars",
-        description = "Free Cars",
-        items = {
-            { type = "item", pack = "car", text = "Compact Car", description = "Compact Car", spawncode = "blista" },
-            { type = "item", pack = "car", text = "SUV", description = "SUV", spawncode = "baller" },
-            { type = "item", pack = "car", text = "Motorcycle", description = "Motorcycle", spawncode = "bati" },
-            { type = "item", pack = "car", text = "Off-road",  description = "Off-road", spawncode = "rebel" },
-        }
+    Menu = {
+        position = { x = 1450, y = 100 },
+        title = false,
+        subtitle = "Welcome to the Donator Menu",
+        banner = "https://files.catbox.moe/an1x9e.png",
     },
 
-    -- nested example
-    {
-        type = "submenu",
-        text = "Example Menu",
-        ace = "example.access",
-        description = "Example description",
-        lockedText = "~r~Access denied",
-        items = {
-            {
-                type = "submenu",
-                text = "Example Menu 1",
-                ace = "example.access",
-                description = "Example description",
-                lockedText = "~r~Access denied",
-                items = {
-                    { type = "item", pack = "car", text = "Example Item", description = "Example description", spawncode = "adder" },
-                }
+    Open = {
+        type = "command",
+        command = "donatormenu",
+        key = "F3",
+    },
+
+    Notify = function (message)
+        SetNotificationTextEntry("STRING")
+        AddTextComponentString(message)
+        DrawNotification(false, false)
+    end,
+
+    Messages = {
+        locked = "~r~Access denied",
+    },
+
+    Entries = {
+
+        -- Vehicles
+        {
+            label = "Police Packs",
+            description = "Police Packs",
+            permission = "police.maverick",
+            locked = "~r~To unlock this menu, you need to be a Donator",
+            items = {
+                { label = "Police Maverick", description = "Police Maverick", action = "vehicle", model = "police" },
+                { label = "Police Buffalo", description = "Police Buffalo", action = "vehicle", model = "police1" },
+                { label = "Police Interceptor", description = "Police Interceptor", action = "vehicle", model = "police2" },
             },
-            {
-                type = "submenu",
-                text = "Example Menu 2",
-                ace = "example.access",
-                description = "Example description",
-                lockedText = "~r~Access denied",
-                items = {
-                    { type = "item", pack = "car", text = "Example Item", description = "Example description", spawncode = "adder" },
-                }
-            }
-        }
-    },
-
-    {
-        type = "submenu",
-        text = "Weapon Packs",
-        ace = "weapon.access",
-        description = "Weapon Packs",
-        lockedText = "~r~Access denied",
-        items = {
-            { type = "item", pack = "weapon", text = "Pistol", description = "Pistol", spawncode = "weapon_pistol" },
-            { type = "item", pack = "weapon", text = "Carbine", description = "Carbine", spawncode = "weapon_carbinerifle" },
-        }
-    },
-
-    {
-        type = "submenu",
-        text = "Peds",
-        description = "Peds",
-        ace = "ped.access",
-        lockedText = "~r~Access denied",
-        items = {
-            { type = "item", pack = "ped", text = "Ped 1", description = "Ped 1", spawncode = "ped1" },
-            { type = "item", pack = "ped", text = "Ped 2", description = "Ped 2", spawncode = "ped2" },
-        }
-    },
-
-    -- Nested Weapon Example
-    {
-        type = "submenu",
-        text = "Special Weapons",
-        ace = "weapon.special",
-        description = "Special Weapon Packs",
-        lockedText = "~r~Access denied",
-        items = {
-            {
-                type = "submenu",
-                text = "Heavy Weapons",
-                ace = "weapon.heavy",
-                description = "Heavy Weapons Pack",
-                lockedText = "~r~Access denied",
-                items = {
-                    { type = "item", pack = "weapon", text = "RPG", description = "Rocket Launcher", spawncode = "weapon_rpg" },
-                    { type = "item", pack = "weapon", text = "Minigun", description = "Minigun", spawncode = "weapon_minigun" },
-                }
+        },
+        {
+            label = "Ambulance Cars",
+            description = "Ambulance Cars",
+            permission = "ambulance.maverick",
+            locked = "~r~To unlock this menu, you need to be a Donator",
+            items = {
+                { label = "Ambulance Maverick", description = "Ambulance Maverick", action = "vehicle", model = "ambulance" },
+                { label = "Ambulance Buffalo", description = "Ambulance Buffalo", action = "vehicle", model = "ambulance1" },
             },
-            {
-                type = "submenu",
-                text = "Sniper Rifles",
-                ace = "weapon.sniper",
-                description = "Sniper Rifles Pack",
-                lockedText = "~r~Access denied",
-                items = {
-                    { type = "item", pack = "weapon", text = "Heavy Sniper", description = "Heavy Sniper", spawncode = "weapon_heavysniper" },
-                    { type = "item", pack = "weapon", text = "Marksman Rifle", description = "Marksman Rifle", spawncode = "weapon_marksmanrifle" },
-                }
-            }
-        }
-    },
-
-    {
-        type = "submenu",
-        text = "Special Peds",
-        ace = "ped.special",
-        description = "Special Character Packs",
-        lockedText = "~r~Access denied",
-        items = {
-            {
-                type = "submenu",
-                text = "Police Peds",
-                ace = "ped.police",
-                description = "Police Character Pack",
-                lockedText = "~r~Access denied",
-                items = {
-                    { type = "item", pack = "ped", text = "SWAT", description = "SWAT Officer", spawncode = "s_m_y_swat_01" },
-                    { type = "item", pack = "ped", text = "Highway Patrol", description = "Highway Patrol Officer", spawncode = "s_m_y_hwaycop_01" },
-                }
+        },
+        {
+            label = "Free Cars",
+            description = "Free Cars",
+            items = {
+                { label = "Compact Car", description = "Compact Car", action = "vehicle", model = "blista" },
+                { label = "SUV", description = "SUV", action = "vehicle", model = "baller" },
+                { label = "Motorcycle", description = "Motorcycle", action = "vehicle", model = "bati" },
+                { label = "Off-road", description = "Off-road", action = "vehicle", model = "rebel" },
             },
-            {
-                type = "submenu",
-                text = "Gang Peds",
-                ace = "ped.gang",
-                description = "Gang Character Pack",
-                lockedText = "~r~Access denied",
-                items = {
-                    { type = "item", pack = "ped", text = "Ballas", description = "Ballas Gang Member", spawncode = "g_m_y_ballasout_01" },
-                    { type = "item", pack = "ped", text = "Lost MC", description = "Lost MC Member", spawncode = "g_m_y_lost_01" },
-                }
-            }
-        }
-    }
+        },
 
+        -- Weapons
+        {
+            label = "Weapon Packs",
+            description = "Weapon Packs",
+            permission = "weapon.access",
+            items = {
+                { label = "Pistol", description = "Pistol", action = "weapon", model = "weapon_pistol" },
+                { label = "Carbine", description = "Carbine", action = "weapon", model = "weapon_carbinerifle" },
+            },
+        },
+        {
+            label = "Special Weapons",
+            description = "Special Weapon Packs",
+            permission = "weapon.special",
+            items = {
+                {
+                    label = "Heavy Weapons",
+                    description = "Heavy Weapons Pack",
+                    permission = "weapon.heavy",
+                    items = {
+                        { label = "RPG", description = "Rocket Launcher", action = "weapon", model = "weapon_rpg" },
+                        { label = "Minigun", description = "Minigun", action = "weapon", model = "weapon_minigun" },
+                    },
+                },
+                {
+                    label = "Sniper Rifles",
+                    description = "Sniper Rifles Pack",
+                    permission = "weapon.sniper",
+                    items = {
+                        { label = "Heavy Sniper", description = "Heavy Sniper", action = "weapon", model = "weapon_heavysniper" },
+                        { label = "Marksman Rifle", description = "Marksman Rifle", action = "weapon", model = "weapon_marksmanrifle" },
+                    },
+                },
+            },
+        },
 
+        -- Peds
+        {
+            label = "Peds",
+            description = "Peds",
+            permission = "ped.access",
+            items = {
+                { label = "Ped 1", description = "Ped 1", action = "ped", model = "ped1" },
+                { label = "Ped 2", description = "Ped 2", action = "ped", model = "ped2" },
+            },
+        },
+        {
+            label = "Special Peds",
+            description = "Special Character Packs",
+            permission = "ped.special",
+            items = {
+                {
+                    label = "Police Peds",
+                    description = "Police Character Pack",
+                    permission = "ped.police",
+                    items = {
+                        { label = "SWAT", description = "SWAT Officer", action = "ped", model = "s_m_y_swat_01" },
+                        { label = "Highway Patrol", description = "Highway Patrol Officer", action = "ped", model = "s_m_y_hwaycop_01" },
+                    },
+                },
+                {
+                    label = "Gang Peds",
+                    description = "Gang Character Pack",
+                    permission = "ped.gang",
+                    items = {
+                        { label = "Ballas", description = "Ballas Gang Member", action = "ped", model = "g_m_y_ballasout_01" },
+                        { label = "Lost MC", description = "Lost MC Member", action = "ped", model = "g_m_y_lost_01" },
+                    },
+                },
+            },
+        },
+
+        -- Examples (nested submenus)
+        {
+            label = "Example Menu",
+            description = "Example description",
+            permission = "example.access",
+            items = {
+                {
+                    label = "Example Menu 1",
+                    description = "Example description",
+                    permission = "example.access",
+                    items = {
+                        { label = "Example Item", description = "Example description", action = "vehicle", model = "adder" },
+                    },
+                },
+                {
+                    label = "Example Menu 2",
+                    description = "Example description",
+                    permission = "example.access",
+                    items = {
+                        { label = "Example Item", description = "Example description", action = "vehicle", model = "adder" },
+                    },
+                },
+            },
+        },
+    },
 }

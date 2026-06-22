@@ -1,19 +1,19 @@
 local MenuPool = NativeUI.CreatePool()
 
 local menu = NativeUI.CreateMenu(
-    Config.useMenuTitle and Config.menuTitle or "",
-    Config.useMenuDescription and Config.menuDescription or "Addon Menu",
-    Config.menuPos.x,
-    Config.menuPos.y
+    Config.Menu.title or "",
+    Config.Menu.subtitle or "",
+    Config.Menu.position.x,
+    Config.Menu.position.y
 )
 
-if Config.useImageBanner then
+if Config.Menu.banner then
     local RuntimeTXD = CreateRuntimeTxd('DonatorMenu_Header')
-    local Object = CreateDui(Config.AddonMenuBannerImage, 512, 128)
+    local Object = CreateDui(Config.Menu.banner, 512, 128)
 
     local dui = GetDuiHandle(Object)
     CreateRuntimeTextureFromDuiHandle(RuntimeTXD, 'DonatorMenu_Header', dui)
-    
+
     local background = Sprite.New('DonatorMenu_Header', 'DonatorMenu_Header', 0, 0, 512, 128)
     menu:SetBannerSprite(background, true)
 end
@@ -23,64 +23,79 @@ MenuPool:MouseControlsEnabled(false)
 MenuPool:MouseEdgeEnabled(false)
 MenuPool:ControlDisablingEnabled(false)
 
+local function GetLockedMessage(entry)
+    return entry.locked or Config.Messages.locked
+end
+
+local function HasPermission(permission)
+    if not permission then
+        return true
+    end
+
+    return lib.callback.await('Donator-Menu:check', false, permission)
+end
+
+local function HasNestedPermission(items)
+    for _, nested in ipairs(items) do
+        if nested.permission and HasPermission(nested.permission) then
+            return true
+        end
+    end
+
+    return false
+end
+
+local function RunAction(action, model)
+    if action == "vehicle" then
+        TriggerEvent('DonatorMenu:SpawnCar', model)
+    elseif action == "weapon" then
+        TriggerEvent('DonatorMenu:GiveWeapon', model)
+    elseif action == "ped" then
+        TriggerEvent('DonatorMenu:SpawnPed', model)
+    end
+end
+
 function CreateMenuItems(parentMenu, items)
-    for _, item in ipairs(items) do
-        if item.type == "submenu" then
-            local hasPermission = true
-            local hasNestedPermission = false
-            if item.ace then
-                hasPermission = lib.callback.await('Donator-Menu:check', false, item.ace)
-                if not hasPermission then
-                    for _, nestedItem in ipairs(item.items) do
-                        if nestedItem.ace then
-                            local nestedHasPermission = lib.callback.await('Donator-Menu:check', false, nestedItem.ace)
-                            if nestedHasPermission then
-                                hasNestedPermission = true
-                                break
-                            end
-                        end
-                    end
-                end
-            end
-            if hasPermission or hasNestedPermission then
-                local submenu = MenuPool:AddSubMenu(parentMenu, item.text, item.description or "", true, true)
-                CreateMenuItems(submenu, item.items)
+    for _, entry in ipairs(items) do
+        if entry.items then
+            local allowed = HasPermission(entry.permission)
+            local nestedAllowed = not allowed and HasNestedPermission(entry.items)
+
+            if allowed or nestedAllowed then
+                local submenu = MenuPool:AddSubMenu(parentMenu, entry.label, entry.description or "", true, true)
+                CreateMenuItems(submenu, entry.items)
             else
-                local lockedMenu = NativeUI.CreateItem('~r~'..item.text, item.lockedText or "")
+                local lockedMessage = GetLockedMessage(entry)
+                local lockedMenu = NativeUI.CreateItem('~r~' .. entry.label, lockedMessage)
                 lockedMenu:RightLabel("🔒")
                 parentMenu:AddItem(lockedMenu)
                 lockedMenu.Activated = function(_, _)
-                    Notify(item.lockedText)
+                    Notify(lockedMessage)
                 end
             end
-        elseif item.type == "item" then
-            local newItem = NativeUI.CreateItem(item.text, item.description or "")
+        elseif entry.action then
+            local newItem = NativeUI.CreateItem(entry.label, entry.description or "")
             newItem.Activated = function(_, _)
-                if item.pack == "car" then
-                    TriggerEvent('DonatorMenu:SpawnCar', item.spawncode)
-                elseif item.pack == "weapon" then
-                    TriggerEvent('DonatorMenu:GiveWeapon', item.spawncode)
-                elseif item.pack == "ped" then
-                    TriggerEvent('DonatorMenu:SpawnPed', item.spawncode)
-                end
+                RunAction(entry.action, entry.model)
             end
             parentMenu:AddItem(newItem)
         end
     end
 end
 
-CreateMenuItems(menu, Config.menu)
+CreateMenuItems(menu, Config.Entries)
 MenuPool:RefreshIndex()
 
-if not Config.useKeyBind then
-    RegisterCommand(Config.menuCommand, function()
+if Config.Open.type == "command" then
+    RegisterCommand(Config.Open.command, function()
         menu:Visible(not menu:Visible())
     end, false)
 else
     RegisterCommand('+donator_menu', function()
         menu:Visible(not menu:Visible())
     end, false)
-    RegisterKeyMapping('+donator_menu', "Donator Menu", "keyboard", Config.menuKey)
+
+    RegisterKeyMapping('+donator_menu', "Donator Menu", "keyboard", Config.Open.key)
 end
 
 Citizen.CreateThread(function()
@@ -92,7 +107,7 @@ end)
 
 RegisterNetEvent('DonatorMenu:SpawnCar')
 AddEventHandler('DonatorMenu:SpawnCar', function(car)
-    local playerPed = PlayerPedId()
+    local ped = PlayerPedId()
     local carHash = GetHashKey(car)
 
     RequestModel(carHash)
@@ -107,13 +122,13 @@ AddEventHandler('DonatorMenu:SpawnCar', function(car)
         return
     end
 
-    if IsPedInAnyVehicle(playerPed, false) then
-        DeleteVehicle(GetVehiclePedIsIn(playerPed, false))
+    if IsPedInAnyVehicle(ped, false) then
+        DeleteVehicle(GetVehiclePedIsIn(ped, false))
     end
 
-    local coords = GetEntityCoords(playerPed)
-    local vehicle = CreateVehicle(carHash, coords.x, coords.y, coords.z, GetEntityHeading(playerPed), true, false)
-    SetPedIntoVehicle(playerPed, vehicle, -1)
+    local coords = GetEntityCoords(ped)
+    local vehicle = CreateVehicle(carHash, coords.x, coords.y, coords.z, GetEntityHeading(ped), true, false)
+    SetPedIntoVehicle(ped, vehicle, -1)
     SetModelAsNoLongerNeeded(carHash)
 
     Notify("~g~[SUCCESS]~w~ Vehicle Spawned")
@@ -121,10 +136,10 @@ end)
 
 RegisterNetEvent('DonatorMenu:GiveWeapon')
 AddEventHandler('DonatorMenu:GiveWeapon', function(weapon)
-    local playerPed = PlayerPedId()
+    local ped = PlayerPedId()
     local weaponHash = GetHashKey(weapon)
-    GiveWeaponToPed(playerPed, weaponHash, 999, false, true)
-    SetPedAmmo(playerPed, weaponHash, 999)
+    GiveWeaponToPed(ped, weaponHash, 999, false, true)
+    SetPedAmmo(ped, weaponHash, 999)
 end)
 
 RegisterNetEvent('DonatorMenu:SpawnPed')
@@ -133,7 +148,7 @@ AddEventHandler('DonatorMenu:SpawnPed', function(ped)
 
     RequestModel(pedHash)
     while not HasModelLoaded(pedHash) do
-        Wait(1)
+        Citizen.Wait(100)
     end
 
     SetPlayerModel(PlayerId(), pedHash)
@@ -142,8 +157,6 @@ AddEventHandler('DonatorMenu:SpawnPed', function(ped)
     SetEntityHealth(newPed, GetEntityMaxHealth(newPed))
 end)
 
-function Notify(msg)
-    SetNotificationTextEntry("STRING")
-    AddTextComponentString(msg)
-    DrawNotification(false, false)
+function Notify(message)
+    Config.Notify(message)
 end

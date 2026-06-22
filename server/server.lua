@@ -1,3 +1,3 @@
-lib.callback.register('Donator-Menu:check', function(ped, ace)
-	return IsPlayerAceAllowed(ped, ace)
+lib.callback.register('Donator-Menu:check', function(source, ace)
+	return IsPlayerAceAllowed(source, ace)
 end)
