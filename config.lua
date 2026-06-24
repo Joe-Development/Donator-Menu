@@ -44,11 +44,17 @@ Config = {
         key = "F3",
     },
 
-    Notify = function (message)
-        SetNotificationTextEntry("STRING")
-        AddTextComponentString(message)
-        DrawNotification(false, false)
-    end,
+    Notify = {
+        Messages = {
+            ['failed:load:model'] = "~r~[ERROR]~w~ Failed to load vehicle: %s",
+            ['success:load:model'] = "~g~[SUCCESS]~w~ Successfully spawned vehicle"
+        },
+        func = function (message)
+            SetNotificationTextEntry("STRING")
+            AddTextComponentString(message)
+            DrawNotification(false, false)
+        end,
+    },
 
     Messages = {
         locked = "~r~Access denied",

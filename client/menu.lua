@@ -118,7 +118,7 @@ AddEventHandler('DonatorMenu:SpawnCar', function(car)
     end
 
     if not HasModelLoaded(carHash) then
-        Notify("~r~[ERROR]~w~ Failed to load model: " .. car)
+        Notify(Config.Notify.Messages['failed:load:model']:format(car))
         return
     end
 
@@ -132,7 +132,7 @@ AddEventHandler('DonatorMenu:SpawnCar', function(car)
     SetPedIntoVehicle(ped, vehicle, -1)
     SetModelAsNoLongerNeeded(carHash)
 
-    Notify("~g~[SUCCESS]~w~ Vehicle Spawned")
+    Notify(Config.Notify.Messages['success:load:model'])
 end)
 
 RegisterNetEvent('DonatorMenu:GiveWeapon')
@@ -159,5 +159,5 @@ AddEventHandler('DonatorMenu:SpawnPed', function(ped)
 end)
 
 function Notify(message)
-    Config.Notify(message)
+    Config.Notify.func(message)
 end
